@@ -140,30 +140,70 @@ for (const dialect of SUPPORTED_DIALECTS) {
 			`)
 		})
 
-		it.skip('should stream select queries: exhaust', async () => {
-			const items = []
+		const STREAMING_UNSUPPORTED_DIALECTS = [
+			'@libsql/client',
+			'@tursodatabase/serverless',
+		] satisfies SupportedDialect[] as SupportedDialect[]
 
-			const iterator = ctx.db.selectFrom('person').selectAll().stream()
+		const isStreamingUnsupported =
+			STREAMING_UNSUPPORTED_DIALECTS.includes(dialect)
 
-			for await (const item of iterator) {
-				items.push(item)
-			}
+		it.skipIf(isStreamingUnsupported)(
+			'should stream select queries: exhaust',
+			async () => {
+				const items = []
 
-			expect(items).toMatchInlineSnapshot()
-		})
+				const iterator = ctx.db.selectFrom('person').selectAll().stream()
 
-		it.skip('should stream select queries: break', async () => {
-			const items = []
+				for await (const item of iterator) {
+					items.push(item)
+				}
 
-			const iterator = ctx.db.selectFrom('person').selectAll().stream()
+				expect(items).toMatchInlineSnapshot(`
+				[
+				  {
+				    "id": "48856ed4-9f1f-4111-ba7f-6092a1be96eb",
+				    "name": "moshe",
+				  },
+				  {
+				    "id": "28175ebc-02ec-4c87-9a84-b3d25193fefa",
+				    "name": "haim",
+				  },
+				  {
+				    "id": "cbbffbea-47d5-40ec-a98d-518b48e2bb5d",
+				    "name": "rivka",
+				  },
+				  {
+				    "id": "d2b76f94-1a33-4b8c-9226-7d35390b1112",
+				    "name": "henry",
+				  },
+				]
+			`)
+			},
+		)
 
-			for await (const item of iterator) {
-				items.push(item)
+		it.skipIf(isStreamingUnsupported)(
+			'should stream select queries: break',
+			async () => {
+				const items = []
 
-				break
-			}
+				const iterator = ctx.db.selectFrom('person').selectAll().stream()
 
-			expect(items).toMatchInlineSnapshot()
-		})
+				for await (const item of iterator) {
+					items.push(item)
+
+					break
+				}
+
+				expect(items).toMatchInlineSnapshot(`
+				[
+				  {
+				    "id": "48856ed4-9f1f-4111-ba7f-6092a1be96eb",
+				    "name": "moshe",
+				  },
+				]
+			`)
+			},
+		)
 	})
 }
