@@ -11,7 +11,7 @@ for (const dialect of SUPPORTED_DIALECTS) {
 	describe.skipIf(
 		(
 			[
-				'@tursodatabase/database', // Error: not implemented .. SqliteError: Parse error: RETURNING currently not implemented for DELETE statements.
+				'@tursodatabase/database', // Error: not implemented when accessing stmt.reader .. SqliteError: Parse error: RETURNING currently not implemented for DELETE statements.
 				'@tursodatabase/serverless/compat', // always returns `[]`.
 			] satisfies SupportedDialect[] as SupportedDialect[]
 		).includes(dialect),

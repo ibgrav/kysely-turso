@@ -13,7 +13,6 @@
 [![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=flat&logo=discord&logoColor=white)](https://discord.gg/xyBJ3GwvAm)
 [![Bluesky](https://img.shields.io/badge/Bluesky-0285FF?style=flat&logo=Bluesky&logoColor=white)](https://bsky.app/profile/kysely.dev)
 
-
 `kysely-turso` offers [Kysely](https://kysely.dev) dialects for [Turso](https://turso.tech)'s [serverless driver](https://www.npmjs.com/package/@tursodatabase/serverless) and [LibSQL client](https://www.npmjs.com/package/@libsql/client).
 
 ## Installation
