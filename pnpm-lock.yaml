@@ -30,8 +30,8 @@ importers:
         specifier: ^24.3.2
         version: 24.3.2
       kysely:
-        specifier: ^0.28.5
-        version: 0.28.5
+        specifier: ^0.28.8
+        version: 0.28.8
       npm-run-all:
         specifier: ^4.1.5
         version: 4.1.5
@@ -1060,8 +1060,8 @@ packages:
   json-parse-better-errors@1.0.2:
     resolution: {integrity: sha512-mrqyZKfX5EhL7hvqcV6WG1yYjnjeuYDzDhhcAAUrq8Po85NBQBJP+ZDUT75qZQ98IkUoBqdkExkukOU7Ts2wrw==}
 
-  kysely@0.28.5:
-    resolution: {integrity: sha512-rlB0I/c6FBDWPcQoDtkxi9zIvpmnV5xoIalfCMSMCa7nuA6VGA3F54TW9mEgX4DVf10sXAWCF5fDbamI/5ZpKA==}
+  kysely@0.28.8:
+    resolution: {integrity: sha512-QUOgl5ZrS9IRuhq5FvOKFSsD/3+IA6MLE81/bOOTRA/YQpKDza2sFdN5g6JCB9BOpqMJDGefLCQ9F12hRS13TA==}
     engines: {node: '>=20.0.0'}
 
   libsql@0.5.22:
@@ -2716,7 +2716,7 @@ snapshots:
 
   json-parse-better-errors@1.0.2: {}
 
-  kysely@0.28.5: {}
+  kysely@0.28.8: {}
 
   libsql@0.5.22:
     dependencies:
