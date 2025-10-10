@@ -87,7 +87,7 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",
-    "@biomejs/biome": "^2.2.4",
+    "@biomejs/biome": "^2.2.5",
     "@libsql/client": "^0.15.15",
     "@tsconfig/node24": "^24.0.1",
     "@tursodatabase/database": "^0.1.5",
