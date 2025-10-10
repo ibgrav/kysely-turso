@@ -4,16 +4,19 @@ import {
 	initTest,
 	resetState,
 	SUPPORTED_DIALECTS,
+	type SupportedDialect,
 	type TestContext,
 } from './test-setup.mjs'
 
 for (const dialect of SUPPORTED_DIALECTS) {
 	describe.skipIf(
-		[
-			'compat', // LibsqlError: Transactions not implemented
-			'serverless', // Error: TursoServerlessDriver does not support interactive transactions.
-			'turso', // Error: not implemented
-		].includes(dialect),
+		(
+			[
+				'@tursodatabase/database', // Error: not implemented
+				'@tursodatabase/serverless', // Error: TursoServerlessDriver does not support interactive transactions.
+				'@tursodatabase/serverless/compat', // LibsqlError: Transactions not implemented
+			] satisfies SupportedDialect[] as SupportedDialect[]
+		).includes(dialect),
 	)(dialect, () => {
 		let ctx: TestContext
 
@@ -39,18 +42,24 @@ for (const dialect of SUPPORTED_DIALECTS) {
 
 			expect(
 				await sql`select * from person order by name`.execute(ctx.db),
-			).toMatchInlineSnapshot(`
+			).toEqual(
+				(
 					{
-					  "insertId": undefined,
-					  "numAffectedRows": 0n,
-					  "rows": [
-					    {
-					      "id": "3af343af-e343-43d4-b0d3-ae1b813a000a",
-					      "name": "josh",
-					    },
-					  ],
-					}
-				`)
+						[dialect]: {
+							insertId: undefined,
+							numAffectedRows: 0n,
+							rows: [
+								{ id: '3af343af-e343-43d4-b0d3-ae1b813a000a', name: 'josh' },
+							],
+						},
+						libsql: {
+							rows: [
+								{ id: '3af343af-e343-43d4-b0d3-ae1b813a000a', name: 'josh' },
+							],
+						},
+					} as const satisfies Partial<Record<SupportedDialect, unknown>>
+				)[dialect],
+			)
 		})
 
 		it('should rollback transactions', async () => {
@@ -66,30 +75,30 @@ for (const dialect of SUPPORTED_DIALECTS) {
 
 			expect(
 				await sql`select * from person order by name`.execute(ctx.db),
-			).toMatchInlineSnapshot(`
+			).toEqual(
+				(
 					{
-					  "insertId": undefined,
-					  "numAffectedRows": 0n,
-					  "rows": [
-					    {
-					      "id": "28175ebc-02ec-4c87-9a84-b3d25193fefa",
-					      "name": "haim",
-					    },
-					    {
-					      "id": "d2b76f94-1a33-4b8c-9226-7d35390b1112",
-					      "name": "henry",
-					    },
-					    {
-					      "id": "48856ed4-9f1f-4111-ba7f-6092a1be96eb",
-					      "name": "moshe",
-					    },
-					    {
-					      "id": "cbbffbea-47d5-40ec-a98d-518b48e2bb5d",
-					      "name": "rivka",
-					    },
-					  ],
-					}
-				`)
+						[dialect]: {
+							insertId: undefined,
+							numAffectedRows: 0n,
+							rows: [
+								{ id: '28175ebc-02ec-4c87-9a84-b3d25193fefa', name: 'haim' },
+								{ id: 'd2b76f94-1a33-4b8c-9226-7d35390b1112', name: 'henry' },
+								{ id: '48856ed4-9f1f-4111-ba7f-6092a1be96eb', name: 'moshe' },
+								{ id: 'cbbffbea-47d5-40ec-a98d-518b48e2bb5d', name: 'rivka' },
+							],
+						},
+						libsql: {
+							rows: [
+								{ id: '28175ebc-02ec-4c87-9a84-b3d25193fefa', name: 'haim' },
+								{ id: 'd2b76f94-1a33-4b8c-9226-7d35390b1112', name: 'henry' },
+								{ id: '48856ed4-9f1f-4111-ba7f-6092a1be96eb', name: 'moshe' },
+								{ id: 'cbbffbea-47d5-40ec-a98d-518b48e2bb5d', name: 'rivka' },
+							],
+						},
+					} as const satisfies Partial<Record<SupportedDialect, unknown>>
+				)[dialect],
+			)
 		})
 
 		it('should use savepoints in transactions', async () => {
@@ -109,18 +118,24 @@ for (const dialect of SUPPORTED_DIALECTS) {
 
 			expect(
 				await sql`select * from person order by name`.execute(ctx.db),
-			).toMatchInlineSnapshot(`
+			).toEqual(
+				(
 					{
-					  "insertId": undefined,
-					  "numAffectedRows": 0n,
-					  "rows": [
-					    {
-					      "id": "3af343af-e343-43d4-b0d3-ae1b813a000a",
-					      "name": "josh",
-					    },
-					  ],
-					}
-				`)
+						[dialect]: {
+							insertId: undefined,
+							numAffectedRows: 0n,
+							rows: [
+								{ id: '3af343af-e343-43d4-b0d3-ae1b813a000a', name: 'josh' },
+							],
+						},
+						libsql: {
+							rows: [
+								{ id: '3af343af-e343-43d4-b0d3-ae1b813a000a', name: 'josh' },
+							],
+						},
+					} as const satisfies Partial<Record<SupportedDialect, unknown>>
+				)[dialect],
+			)
 		})
 	})
 }

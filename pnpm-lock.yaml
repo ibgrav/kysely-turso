@@ -32,6 +32,9 @@ importers:
       kysely:
         specifier: ^0.28.8
         version: 0.28.8
+      libsql:
+        specifier: ^0.5.22
+        version: 0.5.22
       npm-run-all:
         specifier: ^4.1.5
         version: 4.1.5

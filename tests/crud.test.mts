@@ -3,15 +3,18 @@ import {
 	initTest,
 	resetState,
 	SUPPORTED_DIALECTS,
+	type SupportedDialect,
 	type TestContext,
 } from './test-setup.mjs'
 
 for (const dialect of SUPPORTED_DIALECTS) {
 	describe.skipIf(
-		[
-			'compat', // always returns `[]`.
-			'turso', // Error: not implemented .. SqliteError: Parse error: RETURNING currently not implemented for DELETE statements.
-		].includes(dialect),
+		(
+			[
+				'@tursodatabase/database', // Error: not implemented .. SqliteError: Parse error: RETURNING currently not implemented for DELETE statements.
+				'@tursodatabase/serverless/compat', // always returns `[]`.
+			] satisfies SupportedDialect[] as SupportedDialect[]
+		).includes(dialect),
 	)(dialect, () => {
 		let ctx: TestContext
 
